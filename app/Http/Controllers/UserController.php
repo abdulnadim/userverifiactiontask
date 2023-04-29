@@ -28,8 +28,7 @@ class UserController extends Controller
         if(sizeof($data)){
             $data=$data;
         }else{
-            $data=[];
-        }
+            $data=[];        }
         return $data;
     }
 
@@ -136,5 +135,51 @@ class UserController extends Controller
 
     }
     
+    public function createuser(Request $request)
+    {  
+       
+       
+        $request->validate([
+            'name'=>'required',
+            'email'=>"required|email",
+            'mobile'=>'required',
+        ]);
+        if($request->post('id') >0){
+           $user=User::find($request->post('id')) ;
+           $msg="User Updated";
+        }else{
+            $user= new User;
+            $msg="User Created";
+        }
+        
+        // return response()->json(['success' => $request->all()]);
+       $user->name=$request->name;
+       $user->email=$request->email;
+       $user->mobile=$request->mobile;
+          
+       $query=$user->save();
+        if($query==true){
+            $otp=Str::uuid();
+                        $emailVerify= EmailVerification::where('email',$request->email)->first();
+                        if(!empty($emailVerify)){
+                            $result1 = EmailVerification::where('email',$request->email)->update(['token'=>$otp]);                           
+                        }else{
+                            $emailVerify = new EmailVerification;
+                            $emailVerify->email = $request->email;
+                            $emailVerify->token= $otp;
+                            $result1 = $emailVerify->save();
+                            
+                        } 
+            $user->notify(new emailVerificationRequest($otp)); 
+            $request->session()->flash('msg', $msg);            
+            return response()->json(['success' => 'User created.']);
+            
+        }else{
+            $request->session()->flash('erroe_msg',"failed try again");            
+            return redirect('admin/user');
+        }
+       
+    }
 
+    
 }

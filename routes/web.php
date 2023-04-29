@@ -27,6 +27,7 @@ Route::get('/admin/dashboard',[App\Http\Controllers\AdminController::class,'dash
 
 
 Route::get('/admin/user',[App\Http\Controllers\UserController::class,'index']);
+Route::post('/admin/adduser',[App\Http\Controllers\UserController::class,'createuser']);
 Route::get('/admin/manage_user/{id?}',[App\Http\Controllers\UserController::class,'manage_user']);
 Route::post('/admin/user_manage_process/{id?}',[App\Http\Controllers\UserController::class,'user_manage_process'])->name('user.insert');
 Route::get('/admin/user/delete/{id}',[App\Http\Controllers\UserController::class,'delete']);

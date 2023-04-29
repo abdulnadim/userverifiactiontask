@@ -17,16 +17,16 @@
 <div class="row">
     <div class="col-lg-12">
             {{session('msg')}}
-            <form action="{{route('user.insert')}}" method="post" enctype="multipart/form-data" novalidate="novalidate">
+            <form action="javascript:void(0)" method="post" id="form_id">
                 @csrf 
-                {{method_field('post')}}
+                
                 
                 <div class="card">            
                     <div class="card-body">
                         
                         <div class="form-group has-success">
                             <label for="name" class="control-label mb-1">User Name</label>
-                            <input id="name" name="name" value="{{$name}}" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                            <input id="name" required name="name" value="{{$name}}" type="text" class="form-control" aria-required="true" aria-invalid="false">
                             <input type="hidden" name="id" value="{{$id}}">
                             
                             @error('name')
@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group has-success">
                             <label for="email" class="control-label mb-1">Email</label>
-                            <input id="email" name="email" value="{{$email}}" type="Email" class="form-control" aria-required="true" aria-invalid="false">
+                            <input id="email" required name="email" value="{{$email}}" type="Email" class="form-control" aria-required="true" aria-invalid="false">
                             
                             
                             @error('email')
@@ -65,15 +65,52 @@
                     </div>
                 </div>
                 <div>
-                    <button  type="submit" class="btn btn-lg btn-info btn-block">
-                        Submit
-                    </button>
+                    <button  name="submit" id="submit"  class="btn btn-lg btn-info btn-block">
+                        submit
+                    </button>  
+                    
                 </div>                    
             </form>
+            
        
     </div> 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+<script>
+$(document).ready(function(){
+    
+    $("#submit").click(function(){        
+        var siteUrl = "{{url('/admin/adduser')}}";        
+        var form = $('#form_id')[0];
+        var data = new FormData(form);
+
+        $.ajax({
+          url: siteUrl,
+          enctype: 'multipart/form-data',
+          type: "POST",
+          data: data,
+          processData: false,
+          contentType: false,
+          cache: false,
+          success: function( response ) {
+          
+            console.log(response,success);
+            
+          },
+          error: function(error) {
+            console.log(error);
+            
+          }
+        });
+        
+        
+        
+        
+    });
+    
+});
+</script>
 @endsection
 
 
