@@ -93,9 +93,10 @@ $(document).ready(function(){
           processData: false,
           contentType: false,
           cache: false,
-          success: function( response ) {
+          success: function(response) {
           
-            console.log(response,success);
+            console.log(response.success);
+            window.location.href = "/admin/user";
             
           },
           error: function(error) {

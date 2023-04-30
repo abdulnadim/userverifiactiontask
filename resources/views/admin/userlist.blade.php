@@ -42,9 +42,8 @@
                     <th>S.no</th>                  
                     <th>User Name</th>
                     <th>Email</th>
-                    <th>Mobile</th>
+                    <th>Mobile</th>                    
                     <th>Is Verified</th>
-                    <!-- <th class="text-right">Action</th> -->
                     
                 </tr>
             </thead>
@@ -64,7 +63,7 @@
                      @if($val->is_userverified==1)
                      
                         <td style="color:green">Verified</td>
-                        @else<td style="color:yellow">Verified</td>
+                        @else<td style="color:orange"> Pending</td>
                         @endif
                     
                     <!-- <td class="text-right">
